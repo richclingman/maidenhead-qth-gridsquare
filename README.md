@@ -47,8 +47,27 @@ function latLonToQth(
 
 The function can run for any length GridSquare; however, to prevent endless and useless looping,
 the max gsLevel is 18.
+
+## Accuracy Provided by GridSquare
+
 According to [https://www.jidanni.org/geo/maidenhead/](https://www.jidanni.org/geo/maidenhead/),
 the 18-character GS18 provides a ```0.3mm``` accuracy.
+
+Assuming a sphere...
+
+```text
+GS Level: 2  4  6  8  10 12 14 16 18
+          IO 91 VK 44 VF 48 TF 41 HK
+                                  ^--- 0.3mm (GS18)
+                               ^--- 8mm (GS16)
+                            ^--- 80mm (GS14)
+                         ^--- 1.9m (GS12)
+                      ^--- 19m (GS10)
+                   ^--- 463m (GS8)
+                ^--- 4,630m (GS6)
+             ^--- 111,120m (GS4)
+          ^--- 1,111,200m (GS2)
+```
 
 ## Install
 
