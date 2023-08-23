@@ -3,9 +3,8 @@ function latLonToQth(latitude, longitude, gsLevel = 6) {
     let spread = ''
     let error = ''
 
-
-    if (gsLevel < 2 || gsLevel % 2 !== 0) {
-        error += 'gsLevel must be a positive even integer. '
+    if (gsLevel < 2 || gsLevel > 18 || gsLevel % 2 !== 0) {
+        error += 'gsLevel must be a positive even integer between 2 and 18. '
     }
 
     if (latitude < -90.0 || latitude > 90.0) {
@@ -53,8 +52,6 @@ function latLonToQth(latitude, longitude, gsLevel = 6) {
     }
 
     spread = spread.trim()
-
-    // console.log("lltq LAT:", latitude, "LON:", longitude, "QTH:", qth);
 
     return {qth, spread, error}
 }

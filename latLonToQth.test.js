@@ -2,15 +2,6 @@ import {expect, it, describe} from '@jest/globals';
 
 import latLonToQth from './latLonToQth.js'
 
-// console.log('package:', latLonToQth)
-
-// https://www.amsat.org/amsat-new/tools/grids.php <<< BAD RESULTS!!! (Recommended by ARRL)
-// https://www.giangrandi.org/electronics/radio/qthloccalc.shtml
-// http://www.vcars.org/tools-calculators/grid-square-calculator/
-
-// https://www.jidanni.org/geo/maidenhead/ - beyond GS6
-// https://dxcluster.ha8tks.hu/hamgeocoding/ - map with GS10
-
 describe('latLonToQth', () => {
     function getSpread(qth) {
         let spread = ''
@@ -27,8 +18,9 @@ describe('latLonToQth', () => {
             ['bad gsLevel', 0, 0, -3],
             ['bad lat', -90.7, 0, 2],
             ['bad lat', 90.3, 0, 8],
-            ['bad lon', 0, -180.1, 28],
+            ['bad lon', 0, -180.1, 18],
             ['bad lon', 0, 180.1, 2],
+            ['bad lon', 0, 180, 20],
         ])('should error for %s (%d, %d, %d)',
             (name, lat, lon, gsLevel) => {
                 const resp = latLonToQth(lat, lon, gsLevel)
@@ -58,6 +50,8 @@ describe('latLonToQth', () => {
             [20, 40, 8, 'LL00AA00'],
             [20, 40, 10, 'LL00AA00AA'],
             [20, 40, 12, 'LL00AA00AA00'],
+
+            [51.434344, -0.209208, 18, 'IO91VK44VF48TF41HK'], // "tennis" -- 0.3mm accuracy
         ])('should encode (%d, %d, %d) to %s',
             (lat, lon, gsLevel, qth) => {
             const resp = latLonToQth(lat, lon, gsLevel)
@@ -83,8 +77,7 @@ describe('latLonToQth', () => {
         })
     })
 
-    // using rkanters' ll2mh to get long codes
-
+    // Test locations around the world to verify no hemisphere/quadrant bias
     describe('Around the World with GS10', () => {
         it.each([
             ['Disk Golf', 37.028397, -93.197867, 'EM37JA66GT'],
