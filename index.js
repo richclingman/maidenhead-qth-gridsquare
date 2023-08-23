@@ -1,11 +1,12 @@
-exports.latLonToQth = function(lat, lon) {
-    const qth = "AB12"
-    console.log("LAT:", lat, "LON:", lon, "QTH:", qth);
-}
+import latLonToQth from './latLonToQth.js'
+import qthToLatLon from './qthToLatLon.js'
 
-exports.qthToLatLon = function(qth) {
-    const lat = 1.1
-    const lon = 3.3
-    console.log("QTH:", qth, "LAT:", lat, "LON:", lon);
-    return {latitude: lat, longitude: lon}
+console.log('package:', latLonToQth)
+console.log('package:', qthToLatLon)
+
+
+// NOTE: nuxt/vite import failed when using export.latLonToQth = ... export.qthToLatLon = ...
+export {
+    latLonToQth,
+    qthToLatLon,
 }

@@ -2,10 +2,18 @@
   "name": "maidenhead-qth-gridsquare",
   "version": "1.0.0",
   "description": " Calculate QTH Grid Square from longitude, latitude\u001b[H",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "ztest": "jest",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.6.3"
+  },
+  "jest": {
+    "transform": {}
+  }
 }
