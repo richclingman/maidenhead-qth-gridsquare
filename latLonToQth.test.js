@@ -1,3 +1,5 @@
+import {expect, it, describe} from '@jest/globals';
+
 import latLonToQth from './latLonToQth.js'
 
 console.log('package:', latLonToQth)
@@ -6,20 +8,17 @@ console.log('package:', latLonToQth)
 // https://www.giangrandi.org/electronics/radio/qthloccalc.shtml
 
 describe('latLonToQth', () => {
-    describe('on the grid lines', () => {
-        it('should work for positive, positive', function () {
-            const resp = latLonToQth(20, 40)
-            console.log('resp', resp)
-            expect(resp).toBe('LL00aa')
+    describe('on grid lines', () => {
+        it.each([
+            [20, 40, 'LL00aa'],
+            [-90, -180, 'AA00aa'],
+            [0, 0, 'JJ00aa'],
+            [90, 180, 'SS00aa'],
+            [-90, 180, 'SA00aa'],
+            [90, -180, 'AS00aa'],
+        ])('should map (%d, %d) to %s', (lat, lon, qth) => {
+            const resp = latLonToQth(lat, lon)
+            expect(resp).toBe(qth)
         })
-
     })
-
-    // describe('whole degrees', () => {
-    //     it('should work for positive, positive', function () {
-    //         const resp = latLonToQth(14, 47)
-    //         console.log('resp', resp)
-    //         expect(resp).toBe('GK64ma')
-    //     })
-    // })
 })
