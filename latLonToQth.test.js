@@ -9,6 +9,10 @@ console.log('package:', latLonToQth)
 // http://www.vcars.org/tools-calculators/grid-square-calculator/
 
 describe('latLonToQth', () => {
+        function getSpread(qth) {
+            return `${qth[0]}${qth[1]} ${qth[2]}${qth[3]} ${qth[4].toUpperCase()}${qth[5].toUpperCase()}`;
+        }
+
     describe('on grid lines', () => {
         it.each([
             [20, 40, 'LL00aa'],
@@ -19,7 +23,8 @@ describe('latLonToQth', () => {
             [90, -180, 'AS00aa'],
         ])('should map (%d, %d) to %s', (lat, lon, qth) => {
             const resp = latLonToQth(lat, lon)
-            expect(resp).toBe(qth)
+            expect(resp.qth).toBe(qth)
+            expect(resp.spread).toBe(getSpread(qth))
         })
     })
 
@@ -33,7 +38,8 @@ describe('latLonToQth', () => {
             [71, -46, 'GQ71aa'],
         ])('should map (%d, %d) to %s', (lat, lon, qth) => {
             const resp = latLonToQth(lat, lon)
-            expect(resp).toBe(qth)
+            expect(resp.qth).toBe(qth)
+            expect(resp.spread).toBe(getSpread(qth))
         })
     })
 
@@ -47,7 +53,8 @@ describe('latLonToQth', () => {
             [77.77, -46.66, 'GQ67qs'],
         ])('should map (%d, %d) to %s', (lat, lon, qth) => {
             const resp = latLonToQth(lat, lon)
-            expect(resp).toBe(qth)
+            expect(resp.qth).toBe(qth)
+            expect(resp.spread).toBe(getSpread(qth))
         })
     })
 })

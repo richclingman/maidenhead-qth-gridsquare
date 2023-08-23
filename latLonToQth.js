@@ -33,8 +33,13 @@ function latLonToQth(lat, lon) {
 
 
     const qth = `${lonChar1}${latChar1}${lon2}${lat2}${lonChar3}${latChar3}`
+    const spread = `${lonChar1}${latChar1} ${lon2}${lat2} ${lonChar3.toUpperCase()}${latChar3.toUpperCase()}`
+
     console.log("lltq LAT:", lat, "LON:", lon, "QTH:", qth);
-    return qth
+
+    // TODO: Also return "spread qth" AB 12 cd
+
+    return {qth, spread}
 }
 
 
