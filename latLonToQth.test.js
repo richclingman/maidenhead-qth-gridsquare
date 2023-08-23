@@ -85,11 +85,15 @@ describe('latLonToQth', () => {
 
     // using rkanters' ll2mh to get long codes
 
-    describe('at GS10', () => {
+    describe('Around the World with GS10', () => {
         it.each([
             ['Disk Golf', 37.028397, -93.197867, 'EM37JA66GT'],
             ['Church', 37.074914, -93.227606, 'EM37JB27QX'],
             ['Tennis', 51.434344, -0.209208, 'IO91VK44VF'],
+            ['Lions & Tigers', -25.897831, 18.288111, 'JG94DC44NM'],
+            ['Shrimp on the Barbie', -31.835669, 115.913372, 'OF78WD99OK'],
+            ['Penguin Party!', -70.653719, -63.550494, 'FB89FI33WC'],
+            ['Dance Time!', 37.5039465, 126.9895106, 'PM37LM80RW'],
         ])('should map "%s" (%d, %d) to %s',
             (hame, lat, lon, qth) => {
             const resp = latLonToQth(lat, lon, 10)
