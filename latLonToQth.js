@@ -11,6 +11,11 @@ function latLonToQth(lat, lon) {
     const latRem1 = fullLat - lat1 * 10
     const lat2 = Math.floor(latRem1)
 
+    // remainder / 2.5' (0.04167°)
+    const latRemMinutes = (latRem1 - lat2) * 60
+    const lat3 = Math.floor(latRemMinutes / 2.5)
+    const latChar3 = String.fromCharCode(97 + lat3)
+
     // ******************
     // LONGITUDE from anti-meridian / 20
     const fullLon = lon + 180
@@ -18,10 +23,16 @@ function latLonToQth(lat, lon) {
     const lonChar1 = String.fromCharCode(65 + lon1)
 
     // remainder / 2 degrees
-    const lonrem1 = fullLon - lon1 * 20
-    const lon2 = Math.floor(lonrem1 / 2)
+    const lonRem1 = fullLon - lon1 * 20
+    const lon2 = Math.floor(lonRem1 / 2)
 
-    const qth = `${lonChar1}${latChar1}${lon2}${lat2}aa`
+    // remainder / 5' (0.08333°)
+    const lonRemMinutes = (lonRem1 - lon2 * 2) * 60
+    const lon3 = Math.floor(lonRemMinutes / 5)
+    const lonChar3 = String.fromCharCode(97 + lon3)
+
+
+    const qth = `${lonChar1}${latChar1}${lon2}${lat2}${lonChar3}${latChar3}`
     console.log("lltq LAT:", lat, "LON:", lon, "QTH:", qth);
     return qth
 }

@@ -36,4 +36,18 @@ describe('latLonToQth', () => {
             expect(resp).toBe(qth)
         })
     })
+
+    describe('on 3rd level', () => {
+        it.each([
+            [24.8, 47, 'LL34mt'],
+            [-84.6, -13.5, 'IA35gj'],
+            [35.7, 88.6, 'NM45hq'],
+            [63.95, 14.15, 'JP73bw'],
+            [-45.23, 27.64, 'KE34ts'],
+            [77.77, -46.66, 'GQ67qs'],
+        ])('should map (%d, %d) to %s', (lat, lon, qth) => {
+            const resp = latLonToQth(lat, lon)
+            expect(resp).toBe(qth)
+        })
+    })
 })
