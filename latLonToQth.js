@@ -1,45 +1,62 @@
-function latLonToQth(lat, lon) {
-
-    // TODO: Test for limits
-
-    // LATITUDE from south pole / 10
-    const fullLat = lat + 90
-    const lat1 = Math.floor(fullLat / 10)
-    const latChar1 = String.fromCharCode(65 + lat1)
-
-    // remainder / 1 degrees
-    const latRem1 = fullLat - lat1 * 10
-    const lat2 = Math.floor(latRem1)
-
-    // remainder / 2.5' (0.04167°)
-    const latRemMinutes = (latRem1 - lat2) * 60
-    const lat3 = Math.floor(latRemMinutes / 2.5)
-    const latChar3 = String.fromCharCode(97 + lat3)
-
-    // ******************
-    // LONGITUDE from anti-meridian / 20
-    const fullLon = lon + 180
-    const lon1 = Math.floor(fullLon / 20)
-    const lonChar1 = String.fromCharCode(65 + lon1)
-
-    // remainder / 2 degrees
-    const lonRem1 = fullLon - lon1 * 20
-    const lon2 = Math.floor(lonRem1 / 2)
-
-    // remainder / 5' (0.08333°)
-    const lonRemMinutes = (lonRem1 - lon2 * 2) * 60
-    const lon3 = Math.floor(lonRemMinutes / 5)
-    const lonChar3 = String.fromCharCode(97 + lon3)
+function latLonToQth(latitude, longitude, gsLevel = 6) {
+    let qth = ''
+    let spread = ''
+    let error = ''
 
 
-    const qth = `${lonChar1}${latChar1}${lon2}${lat2}${lonChar3}${latChar3}`
-    const spread = `${lonChar1}${latChar1} ${lon2}${lat2} ${lonChar3.toUpperCase()}${latChar3.toUpperCase()}`
+    if (gsLevel < 2 || gsLevel % 2 !== 0) {
+        error += 'gsLevel must be a positive even integer. '
+    }
 
-    console.log("lltq LAT:", lat, "LON:", lon, "QTH:", qth);
+    if (latitude < -90.0 || latitude > 90.0) {
+        error += 'latitude must be a float between -90.0 and +90.0. '
+    }
 
-    // TODO: Also return "spread qth" AB 12 cd
+    if (longitude < -180.0 || longitude > 180.0) {
+        error += 'longitude must be a float between -180.0 and +180.0. '
+    }
 
-    return {qth, spread}
+    if (error !== '') {
+        return {qth, spread, error}
+    }
+
+    // scale for gridding
+    latitude = (latitude + 90) / 10
+    longitude = (longitude + 180) / 20
+
+    const charA = 65
+
+    let loops = gsLevel / 2 + 1
+    for (let i = 1; i < loops; ++i) {
+        let latInt = Math.floor(latitude)
+        let lonInt = Math.floor(longitude)
+
+        if (i % 2) {
+            const latChar = String.fromCharCode(charA + latInt)
+            const lonChar = String.fromCharCode(charA + lonInt)
+            qth += `${lonChar}${latChar}`
+            spread += `${lonChar}${latChar} `
+
+            // set up for the next level 10x10 grid
+            latitude = ((latitude - latInt) * 10).toFixed(6)
+            longitude = ((longitude - lonInt) * 10).toFixed(6)
+        } else {
+            qth += `${lonInt}${latInt}`
+            spread += `${lonInt}${latInt} `
+
+            // set up for the next level 24x24 grid
+            latitude = ((latitude - latInt) * 24).toFixed(6)
+            longitude = ((longitude - lonInt) * 24).toFixed(6)
+        }
+
+
+    }
+
+    spread = spread.trim()
+
+    // console.log("lltq LAT:", latitude, "LON:", longitude, "QTH:", qth);
+
+    return {qth, spread, error}
 }
 
 

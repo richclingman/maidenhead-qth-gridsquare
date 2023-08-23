@@ -1,8 +1,9 @@
 function qthToLatLon(qth) {
-    const latitude = 3.3
-    const longitude = 1.1
-    console.log("qtl2 QTH:", qth, "LAT:", latitude, "LON:", longitude);
-    return {latitude, longitude}
+    const latitude = 0
+    const longitude = 0
+    const error = 'NOT YET IMPLEMENTED'
+
+    return {latitude, longitude, error}
 }
 
 export default qthToLatLon
